@@ -10,6 +10,7 @@ export default class App extends React.Component {
     this.state = { inputText: '', todos: [] }
     this.addItem = this.addItem.bind(this)
     this.onKeyUpInput = this.onKeyUpInput.bind(this)
+    this.inputTextHandler = this.inputTextHandler.bind(this)
   }
   addItem(text) {
     // generate id
@@ -32,24 +33,39 @@ export default class App extends React.Component {
       status: 'all',
     }
   }
+  inputTextHandler(e) {
+    console.log(e.target.value)
+    this.setState({
+      inputText: e.target.value,
+    })
+  }
 
   onKeyUpInput(event) {
     event.preventDefault()
-    console.log('enter pres')
+
     if (event.key === 'Enter') {
       //   const todos = this.props.todos
       //   const inputText = this.props.inputText
       this.setState(({ todos }) => ({
         todos: [...todos, { text: event.target.value, completed: false, id: Math.random() * 1000, status: 'All' }],
+        inputText: '',
       }))
+      console.log('enter pres')
+      event.target.value = ''
     }
   }
+
   render() {
     const inputText = this.state.inputText
     return (
       <div className="App">
         <section className="todoapp">
-          <NewTaskForm todos={this.state.todos} inputText={inputText} onKeyUpInput={this.onKeyUpInput} />
+          <NewTaskForm
+            todos={this.state.todos}
+            inputText={inputText}
+            onKeyUpInput={this.onKeyUpInput}
+            inputTextHandler={this.inputTextHandler}
+          />
           <section className="main">
             <TaskList></TaskList>
             <footer className="footer">
