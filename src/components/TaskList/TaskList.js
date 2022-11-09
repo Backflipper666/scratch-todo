@@ -1,8 +1,13 @@
-const TaskList = () => {
+import Task from '../Task/Task'
+
+const TaskList = ({ todos }) => {
+  console.log(todos)
   return (
     <ul className="todo-list">
-      {' '}
-      <li className="completed">
+      {todos.map((todo) => (
+        <Task completed={todo.completed} id={todo.id} status={todo.status} text={todo.text} key={todo.id} />
+      ))}
+      {/*  <li className="completed">
         <div className="view">
           <input className="toggle" type="checkbox" />
           <label>
@@ -35,7 +40,7 @@ const TaskList = () => {
           <button className="icon icon-edit" />
           <button className="icon icon-destroy" />
         </div>
-      </li>
+      </li> */}
     </ul>
   )
 }
