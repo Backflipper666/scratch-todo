@@ -8,7 +8,25 @@ class NewTaskForm extends React.Component {
     }
     this.onLabelChange = this.onLabelChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.inputTextHandler = this.inputTextHandler.bind(this)
+    this.submitTodoHandler = this.submitTodoHandler.bind(this)
   }
+
+  inputTextHandler(e) {
+    console.log(e.target.value)
+    this.setState({
+      label: e.target.value,
+    })
+  }
+  submitTodoHandler(e) {
+    const todos = this.state.todos
+    const inputText = this.state.inputText
+    e.preventDefault()
+    this.setState({
+      todos: [...todos, { text: inputText, completed: false, id: Math.random() * 1000, status: 'All' }],
+    })
+  }
+
   onLabelChange(e) {
     this.setState({
       label: e.target.value,
@@ -35,15 +53,17 @@ class NewTaskForm extends React.Component {
   }
 
   render() {
+    const onKeyUpInput = this.props.onKeyUpInput
     return (
       <header className="header">
         <h1>todos</h1>
         <input
-          onSubmit={this.onSubmit}
+          onSubmit={this.submitTodoHandler}
           className="new-todo"
           placeholder="What needs to be done?"
-          onChange={this.onLabelChange}
           value={this.state.label}
+          onChange={this.inputTextHandler}
+          onKeyUp={onKeyUpInput}
           autoFocus
         />
       </header>

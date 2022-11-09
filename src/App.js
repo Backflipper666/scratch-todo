@@ -2,11 +2,14 @@ import React from 'react'
 
 import './App.css'
 import NewTaskForm from './components/NewTaskForm/NewTaskForm'
+import TaskList from './components/TaskList/TaskList'
 
 export default class App extends React.Component {
   constructor(props) {
     super(props)
+    this.state = { inputText: '', todos: [] }
     this.addItem = this.addItem.bind(this)
+    this.onKeyUpInput = this.onKeyUpInput.bind(this)
   }
   addItem(text) {
     // generate id
@@ -29,48 +32,26 @@ export default class App extends React.Component {
       status: 'all',
     }
   }
+
+  onKeyUpInput(event) {
+    event.preventDefault()
+    console.log('enter pres')
+    if (event.key === 'Enter') {
+      //   const todos = this.props.todos
+      //   const inputText = this.props.inputText
+      this.setState(({ todos }) => ({
+        todos: [...todos, { text: event.target.value, completed: false, id: Math.random() * 1000, status: 'All' }],
+      }))
+    }
+  }
   render() {
+    const inputText = this.state.inputText
     return (
       <div className="App">
         <section className="todoapp">
-          <NewTaskForm />
+          <NewTaskForm todos={this.state.todos} inputText={inputText} onKeyUpInput={this.onKeyUpInput} />
           <section className="main">
-            <ul className="todo-list">
-              <li className="completed">
-                <div className="view">
-                  <input className="toggle" type="checkbox" />
-                  <label>
-                    <span className="description">Completed task</span>
-                    <span className="created">created 17 seconds ago</span>
-                  </label>
-                  <button className="icon icon-edit" />
-                  <button className="icon icon-destroy" />
-                </div>
-              </li>
-              <li className="editing">
-                <div className="view">
-                  <input className="toggle" type="checkbox" />
-                  <label>
-                    <span className="description">Editing task</span>
-                    <span className="created">created 5 minutes ago</span>
-                  </label>
-                  <button className="icon icon-edit" />
-                  <button className="icon icon-destroy" />
-                </div>
-                <input type="text" className="edit" value="Editing task" />
-              </li>
-              <li>
-                <div className="view">
-                  <input className="toggle" type="checkbox" />
-                  <label>
-                    <span className="description">Active task</span>
-                    <span className="created">created 5 minutes ago</span>
-                  </label>
-                  <button className="icon icon-edit" />
-                  <button className="icon icon-destroy" />
-                </div>
-              </li>
-            </ul>
+            <TaskList></TaskList>
             <footer className="footer">
               <span className="todo-count">1 items left</span>
               <ul className="filters">
