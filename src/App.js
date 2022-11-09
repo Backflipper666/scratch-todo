@@ -11,10 +11,10 @@ export default class App extends React.Component {
     this.onKeyUpInput = this.onKeyUpInput.bind(this)
     this.inputTextHandler = this.inputTextHandler.bind(this)
     this.onDeleteTask = this.onDeleteTask.bind(this)
+    this.onCompleteHandler = this.onCompleteHandler.bind(this)
   }
 
   inputTextHandler(e) {
-    console.log(e.target.value)
     this.setState({
       inputText: e.target.value,
     })
@@ -27,10 +27,12 @@ export default class App extends React.Component {
       //   const todos = this.props.todos
       //   const inputText = this.props.inputText
       this.setState(({ todos }) => ({
-        todos: [...todos, { text: inputText, completed: false, id: Math.random() * 1000, status: 'All' }],
+        todos: [
+          ...todos,
+          { text: inputText, completed: false, editing: false, id: Math.random() * 1000, status: 'All' },
+        ],
         inputText: '',
       }))
-      console.log('enter pres')
 
       // event.target.value = ''
     }
@@ -39,6 +41,21 @@ export default class App extends React.Component {
   onDeleteTask(id) {
     this.setState((state) => ({
       todos: state.todos.filter((item) => item.id !== id),
+    }))
+  }
+
+  onCompleteHandler(id) {
+    this.setState((state) => ({
+      todos: state.todos.map((item) => {
+        if (item.id === id) {
+          console.log('item is: ', item)
+          return {
+            ...item,
+            completed: !item.completed,
+          }
+        }
+        return item
+      }),
     }))
   }
 
@@ -55,7 +72,12 @@ export default class App extends React.Component {
             inputTextHandler={this.inputTextHandler}
           />
           <section className="main">
-            <TaskList todos={todos} onKeyUpInput={this.onKeyUpInput} onDeleteTask={this.onDeleteTask}></TaskList>
+            <TaskList
+              todos={todos}
+              onKeyUpInput={this.onKeyUpInput}
+              onDeleteTask={this.onDeleteTask}
+              onCompleteHandler={this.onCompleteHandler}
+            ></TaskList>
             <footer className="footer">
               <span className="todo-count">1 items left</span>
               <ul className="filters">
