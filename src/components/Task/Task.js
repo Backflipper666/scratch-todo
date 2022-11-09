@@ -19,7 +19,7 @@ const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo }) => {
         <button onClick={deleteTask} className="icon icon-destroy" />
       </div>
     </li> */
-    <li className={todo.status}>
+    <li className={`${todo.completed ? 'completed' : ''}`}>
       {todo.status === 'editing' ? (
         <input type="text" className="edit" placeholder="Editing task" />
       ) : (
