@@ -10,6 +10,7 @@ export default class App extends React.Component {
     this.state = { inputText: '', todos: [] }
     this.onKeyUpInput = this.onKeyUpInput.bind(this)
     this.inputTextHandler = this.inputTextHandler.bind(this)
+    this.onDeleteTask = this.onDeleteTask.bind(this)
   }
 
   inputTextHandler(e) {
@@ -35,6 +36,12 @@ export default class App extends React.Component {
     }
   }
 
+  onDeleteTask(id) {
+    this.setState((state) => ({
+      todos: state.todos.filter((item) => item.id !== id),
+    }))
+  }
+
   render() {
     const inputText = this.state.inputText
     const todos = this.state.todos
@@ -48,7 +55,7 @@ export default class App extends React.Component {
             inputTextHandler={this.inputTextHandler}
           />
           <section className="main">
-            <TaskList todos={todos}></TaskList>
+            <TaskList todos={todos} onKeyUpInput={this.onKeyUpInput} onDeleteTask={this.onDeleteTask}></TaskList>
             <footer className="footer">
               <span className="todo-count">1 items left</span>
               <ul className="filters">

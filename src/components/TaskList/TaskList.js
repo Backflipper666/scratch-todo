@@ -1,11 +1,20 @@
 import Task from '../Task/Task'
 
-const TaskList = ({ todos }) => {
+const TaskList = ({ todos, onDeleteTask }) => {
   console.log(todos)
   return (
     <ul className="todo-list">
       {todos.map((todo) => (
-        <Task completed={todo.completed} id={todo.id} status={todo.status} text={todo.text} key={todo.id} />
+        <Task
+          completed={todo.completed}
+          id={todo.id}
+          status={todo.status}
+          text={todo.text}
+          key={todo.id}
+          todo={todo}
+          todos={todos}
+          onDeleteTask={onDeleteTask}
+        />
       ))}
       {/*  <li className="completed">
         <div className="view">

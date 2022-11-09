@@ -1,5 +1,8 @@
-const Task = ({ text }) => {
-  console.log(text)
+const Task = ({ text, id, onDeleteTask }) => {
+  const deleteTask = () => {
+    onDeleteTask(id)
+  }
+
   return (
     <li className="completed">
       <div className="view">
@@ -9,7 +12,7 @@ const Task = ({ text }) => {
           <span className="created">created 17 seconds ago</span>
         </label>
         <button className="icon icon-edit" />
-        <button className="icon icon-destroy" />
+        <button onClick={deleteTask} className="icon icon-destroy" />
       </div>
     </li>
   )
