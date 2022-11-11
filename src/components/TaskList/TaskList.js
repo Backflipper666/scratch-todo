@@ -1,6 +1,6 @@
 import Task from '../Task/Task'
 
-const TaskList = ({ todos, onDeleteTask, onCompleteHandler }) => {
+const TaskList = ({ todos, onDeleteTask, onCompleteHandler, onEditHandler }) => {
   return (
     <ul className="todo-list">
       {todos.map((todo) => (
@@ -14,6 +14,7 @@ const TaskList = ({ todos, onDeleteTask, onCompleteHandler }) => {
           todos={todos}
           onDeleteTask={onDeleteTask}
           onCompleteHandler={onCompleteHandler}
+          onEditHandler={onEditHandler}
         />
       ))}
       {/*  <li className="completed">

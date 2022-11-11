@@ -1,10 +1,14 @@
-const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo }) => {
+const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler }) => {
   const deleteTask = () => {
     onDeleteTask(id)
   }
 
   const completeHandler = () => {
     onCompleteHandler(id)
+  }
+
+  const editHandler = () => {
+    onEditHandler(id)
   }
 
   return (
@@ -29,7 +33,7 @@ const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo }) => {
             <span className="description">{text}</span>
             <span className="created">created 5 minutes ago</span>
           </label>
-          <button className="icon icon-edit" />
+          <button onClick={editHandler} className="icon icon-edit" />
           <button onClick={deleteTask} className="icon icon-destroy" />
         </div>
       )}

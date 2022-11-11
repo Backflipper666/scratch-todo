@@ -12,6 +12,7 @@ export default class App extends React.Component {
     this.inputTextHandler = this.inputTextHandler.bind(this)
     this.onDeleteTask = this.onDeleteTask.bind(this)
     this.onCompleteHandler = this.onCompleteHandler.bind(this)
+    this.onEditHandler = this.onEditHandler.bind(this)
   }
 
   inputTextHandler(e) {
@@ -59,6 +60,20 @@ export default class App extends React.Component {
     }))
   }
 
+  onEditHandler(id) {
+    this.setState((state) => ({
+      todos: state.todos.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            editing: !item.editing,
+          }
+        }
+        return item
+      }),
+    }))
+  }
+
   render() {
     const inputText = this.state.inputText
     const todos = this.state.todos
@@ -77,6 +92,7 @@ export default class App extends React.Component {
               onKeyUpInput={this.onKeyUpInput}
               onDeleteTask={this.onDeleteTask}
               onCompleteHandler={this.onCompleteHandler}
+              onEditHandler={this.onEditHandler}
             ></TaskList>
             <footer className="footer">
               <span className="todo-count">1 items left</span>
