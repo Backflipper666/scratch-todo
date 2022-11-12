@@ -1,4 +1,6 @@
+import { useState } from 'react'
 const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler }) => {
+  const [inputValue, setInputValue] = useState(todo.text)
   const deleteTask = () => {
     onDeleteTask(id)
   }
@@ -25,7 +27,13 @@ const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler }
     </li> */
     <li className={`${todo.completed ? 'completed' : ''}`}>
       {todo.status === 'editing' ? (
-        <input type="text" className="edit" placeholder="Editing task" />
+        <input
+          type="text"
+          className="editing"
+          placeholder="Editing task"
+          value={inputValue}
+          onChange={(event) => setInputValue(event.target.value)}
+        />
       ) : (
         <div className="view">
           <input className="toggle" type="checkbox" id={id} onClick={completeHandler} />

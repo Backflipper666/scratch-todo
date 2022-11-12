@@ -49,10 +49,19 @@ export default class App extends React.Component {
     this.setState((state) => ({
       todos: state.todos.map((item) => {
         if (item.id === id) {
-          console.log('item is: ', item)
-          return {
-            ...item,
-            completed: !item.completed,
+          if (item.status === 'All') {
+            console.log('item is: ', item)
+            return {
+              ...item,
+              status: 'completed',
+              completed: !item.completed,
+            }
+          } else if (item.status === 'completed') {
+            return {
+              ...item,
+              status: 'All',
+              completed: !item.completed,
+            }
           }
         }
         return item
@@ -64,6 +73,17 @@ export default class App extends React.Component {
     this.setState((state) => ({
       todos: state.todos.map((item) => {
         if (item.id === id) {
+          if (item.status === 'All') {
+            return {
+              ...item,
+              status: 'editing',
+            }
+          } else if (item.status === 'editing') {
+            return {
+              ...item,
+              status: 'All',
+            }
+          }
           return {
             ...item,
             editing: !item.editing,
