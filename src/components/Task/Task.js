@@ -14,22 +14,11 @@ const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler }
   }
 
   return (
-    /*     <li className="completed">
-      <div className="view">
-        <input className="toggle" type="checkbox" />
-        <label>
-          <span className="description">{text}a</span>
-          <span className="created">created 17 seconds ago</span>
-        </label>
-        <button className="icon icon-edit" onClick={completeHandler} />
-        <button onClick={deleteTask} className="icon icon-destroy" />
-      </div>
-    </li> */
-    <li className={`${todo.completed ? 'completed' : ''}`}>
+    <li className={todo.status}>
       {todo.status === 'editing' ? (
         <input
           type="text"
-          className="editing"
+          className="edit"
           placeholder="Editing task"
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
