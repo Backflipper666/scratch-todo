@@ -13,6 +13,7 @@ export default class App extends React.Component {
     this.onDeleteTask = this.onDeleteTask.bind(this)
     this.onCompleteHandler = this.onCompleteHandler.bind(this)
     this.onEditHandler = this.onEditHandler.bind(this)
+    this.onEditSubmit = this.onEditSubmit.bind(this)
   }
 
   inputTextHandler(e) {
@@ -23,6 +24,7 @@ export default class App extends React.Component {
 
   onKeyUpInput(event) {
     event.preventDefault()
+
     const inputText = this.state.inputText
     if (event.key === 'Enter') {
       //   const todos = this.props.todos
@@ -73,7 +75,7 @@ export default class App extends React.Component {
     this.setState((state) => ({
       todos: state.todos.map((item) => {
         if (item.id === id) {
-          if (item.status === 'All') {
+          if (item.status === 'All' || item.status === 'completed') {
             return {
               ...item,
               status: 'editing',
@@ -92,6 +94,33 @@ export default class App extends React.Component {
         return item
       }),
     }))
+  }
+
+  onEditSubmit(id, textEdited, event) {
+    event.preventDefault()
+    console.log('event is: ', event)
+    if (event.key === 'Enter') {
+      this.setState((state) => ({
+        todos: state.todos.map((item) => {
+          if (item.id === id) {
+            if (!item.completed) {
+              return {
+                ...item,
+                status: 'All',
+                text: textEdited,
+              }
+            } else {
+              return {
+                ...item,
+                status: 'completed',
+                text: textEdited,
+              }
+            }
+          }
+          return item
+        }),
+      }))
+    }
   }
 
   render() {
@@ -113,6 +142,7 @@ export default class App extends React.Component {
               onDeleteTask={this.onDeleteTask}
               onCompleteHandler={this.onCompleteHandler}
               onEditHandler={this.onEditHandler}
+              onEditSubmit={this.onEditSubmit}
             ></TaskList>
             <footer className="footer">
               <span className="todo-count">1 items left</span>

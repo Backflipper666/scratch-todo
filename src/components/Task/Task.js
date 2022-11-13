@@ -1,5 +1,5 @@
 import { useState } from 'react'
-const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler }) => {
+const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler, onEditSubmit }) => {
   const [inputValue, setInputValue] = useState(todo.text)
   const deleteTask = () => {
     onDeleteTask(id)
@@ -12,6 +12,9 @@ const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler }
   const editHandler = () => {
     onEditHandler(id)
   }
+  const editSubmit = (event) => {
+    onEditSubmit(id, inputValue, event)
+  }
 
   return (
     <li className={todo.status}>
@@ -22,10 +25,20 @@ const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler }
           placeholder="Editing task"
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
+          onKeyUp={editSubmit}
         />
       ) : (
         <div className="view">
-          <input className="toggle" type="checkbox" id={id} onClick={completeHandler} />
+          <input
+            className="toggle"
+            type="checkbox"
+            checked={todo.status === 'completed'}
+            id={id}
+            onClick={completeHandler}
+            onChange={(e) => {
+              e
+            }}
+          />
           <label htmlFor={id}>
             <span className="description">{text}</span>
             <span className="created">created 5 minutes ago</span>
