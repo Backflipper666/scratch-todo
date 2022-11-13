@@ -14,6 +14,7 @@ export default class App extends React.Component {
     this.onCompleteHandler = this.onCompleteHandler.bind(this)
     this.onEditHandler = this.onEditHandler.bind(this)
     this.onEditSubmit = this.onEditSubmit.bind(this)
+    this.onBlurInput = this.onBlurInput.bind(this)
   }
 
   inputTextHandler(e) {
@@ -123,6 +124,30 @@ export default class App extends React.Component {
     }
   }
 
+  onBlurInput(id, textEdited) {
+    this.setState((state) => ({
+      todos: state.todos.map((item) => {
+        if (item.id === id) {
+          if (!item.completed) {
+            return {
+              ...item,
+              status: 'All',
+              text: textEdited,
+            }
+          } else {
+            return {
+              ...item,
+              status: 'completed',
+              text: textEdited,
+            }
+          }
+        }
+        return item
+      }),
+    }))
+    id
+  }
+
   render() {
     const inputText = this.state.inputText
     const todos = this.state.todos
@@ -143,6 +168,7 @@ export default class App extends React.Component {
               onCompleteHandler={this.onCompleteHandler}
               onEditHandler={this.onEditHandler}
               onEditSubmit={this.onEditSubmit}
+              onBlurInput={this.onBlurInput}
             ></TaskList>
             <footer className="footer">
               <span className="todo-count">1 items left</span>

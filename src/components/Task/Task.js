@@ -1,5 +1,5 @@
 import { useState } from 'react'
-const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler, onEditSubmit }) => {
+const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler, onEditSubmit, onBlurInput }) => {
   const [inputValue, setInputValue] = useState(todo.text)
   const deleteTask = () => {
     onDeleteTask(id)
@@ -16,6 +16,10 @@ const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler, 
     onEditSubmit(id, inputValue, event)
   }
 
+  const blurInput = () => {
+    onBlurInput(id, inputValue)
+  }
+
   return (
     <li className={todo.status}>
       {todo.status === 'editing' ? (
@@ -26,6 +30,7 @@ const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler, 
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
           onKeyUp={editSubmit}
+          onBlur={blurInput}
         />
       ) : (
         <div className="view">
