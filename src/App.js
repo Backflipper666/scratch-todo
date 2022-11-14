@@ -161,23 +161,23 @@ export default class App extends React.Component {
   statusHandler(e) {
     console.log(e)
     console.log(e.target.firstChild.data)
-    this.setState({
+    this.setState(() => ({
       filterStatus: e.target.firstChild.data,
-    })
+    }))
   }
 
   filterHandler() {
     if (this.state.filterStatus === 'Completed') {
       this.setState((state) => ({
-        filterStatus: state.todos.filter((todo) => todo.completed === true),
+        filteredTodos: state.todos.filter((todo) => todo.completed),
       }))
     } else if (this.state.filterStatus === 'Active') {
       this.setState((state) => ({
-        filterStatus: state.todos.filter((todo) => todo.completed === false),
+        filteredTodos: state.todos.filter((todo) => todo.completed === false),
       }))
-    } else {
+    } else if (this.filterStatus === 'All') {
       this.setState((state) => ({
-        filterStatus: state.todos.filter((todo) => todo),
+        filteredTodos: state.todos.filter((todo) => todo),
       }))
     }
   }
@@ -203,6 +203,7 @@ export default class App extends React.Component {
               onEditHandler={this.onEditHandler}
               onEditSubmit={this.onEditSubmit}
               onBlurInput={this.onBlurInput}
+              filteredTodos={this.state.filteredTodos}
             ></TaskList>
             <Footer filterHandler={this.filterHandler} statusHandler={this.statusHandler} />
           </section>
