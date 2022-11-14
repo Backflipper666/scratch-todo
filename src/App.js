@@ -18,8 +18,8 @@ export default class App extends React.Component {
     this.onEditHandler = this.onEditHandler.bind(this)
     this.onEditSubmit = this.onEditSubmit.bind(this)
     this.onBlurInput = this.onBlurInput.bind(this)
-    this.onFilterCompleted = this.onFilterCompleted.bind(this)
     this.filterHandler = this.filterHandler.bind(this)
+    this.statusHandler = this.statusHandler.bind(this)
   }
 
   inputTextHandler(e) {
@@ -204,7 +204,7 @@ export default class App extends React.Component {
               onEditSubmit={this.onEditSubmit}
               onBlurInput={this.onBlurInput}
             ></TaskList>
-            <Footer filterHandler={this.filterHandler} />
+            <Footer filterHandler={this.filterHandler} statusHandler={this.statusHandler} />
           </section>
         </section>
       </div>
