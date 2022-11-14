@@ -6,10 +6,14 @@ class NewTaskForm extends React.Component {
     this.state = {
       label: '',
     }
+    this.statusHandler = this.statusHandler.bind(this)
     // this.onLabelChange = this.onLabelChange.bind(this)
     // this.onSubmit = this.onSubmit.bind(this)
     // this.inputTextHandler = this.inputTextHandler.bind(this)
     // this.submitTodoHandler = this.submitTodoHandler.bind(this)
+  }
+  statusHandler(e) {
+    console.log(e)
   }
 
   render() {

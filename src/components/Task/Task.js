@@ -31,6 +31,7 @@ const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler, 
           onChange={(event) => setInputValue(event.target.value)}
           onKeyUp={editSubmit}
           onBlur={blurInput}
+          autoFocus
         />
       ) : (
         <div className="view">

@@ -3,6 +3,7 @@ import React from 'react'
 import './App.css'
 import NewTaskForm from './components/NewTaskForm/NewTaskForm'
 import TaskList from './components/TaskList/TaskList'
+import Footer from './components/Footer/Footer'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -33,7 +34,14 @@ export default class App extends React.Component {
       this.setState(({ todos }) => ({
         todos: [
           ...todos,
-          { text: inputText, completed: false, editing: false, id: Math.random() * 1000, status: 'All' },
+          {
+            text: inputText,
+            completed: false,
+            editing: false,
+            id: Math.random() * 1000,
+            status: 'All',
+            filteredTodos: [],
+          },
         ],
         inputText: '',
       }))
@@ -170,21 +178,7 @@ export default class App extends React.Component {
               onEditSubmit={this.onEditSubmit}
               onBlurInput={this.onBlurInput}
             ></TaskList>
-            <footer className="footer">
-              <span className="todo-count">1 items left</span>
-              <ul className="filters">
-                <li>
-                  <button className="selected">All</button>
-                </li>
-                <li>
-                  <button>Active</button>
-                </li>
-                <li>
-                  <button>Completed</button>
-                </li>
-              </ul>
-              <button className="clear-completed">Clear completed</button>
-            </footer>
+            <Footer />
           </section>
         </section>
       </div>
