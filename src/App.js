@@ -1,7 +1,10 @@
+/* eslint-disable indent */
 import React from 'react'
 
 import './App.css'
 // import { flushSync } from 'react-dom'
+
+// import { isThisISOWeek } from 'date-fns'
 
 import NewTaskForm from './components/NewTaskForm/NewTaskForm'
 import TaskList from './components/TaskList/TaskList'
@@ -33,24 +36,58 @@ export default class App extends React.Component {
 
     const inputText = this.state.inputText
     if (event.key === 'Enter') {
-      //   const todos = this.props.todos
-      //   const inputText = this.props.inputText
-      this.setState(({ todos }) => ({
-        todos: [
-          ...todos,
-          {
-            text: inputText,
-            completed: false,
-            editing: false,
-            id: Math.random() * 1000,
-            status: 'All',
-            filteredTodos: [],
-          },
-        ],
-        inputText: '',
-      }))
-
-      // event.target.value = ''
+      switch (this.state.filterStatus) {
+        case 'Completed':
+          //   const todos = this.props.todos
+          //   const inputText = this.props.inputText
+          this.setState(({ todos }) => ({
+            todos: [
+              ...todos,
+              {
+                text: inputText,
+                completed: false,
+                editing: false,
+                id: Math.random() * 1000,
+                status: 'All',
+              },
+            ],
+            filteredTodos: todos.filter((todo) => todo.completed === true),
+            inputText: '',
+          })) // event.target.value = ''
+          break
+        case 'Active':
+          this.setState(({ todos }) => ({
+            todos: [
+              ...todos,
+              {
+                text: inputText,
+                completed: false,
+                editing: false,
+                id: Math.random() * 1000,
+                status: 'All',
+              },
+            ],
+            filteredTodos: todos.filter((todo) => todo.completed === false),
+            inputText: '',
+          })) // event.target.value = ''
+          break
+        default: // event.target.value = ''
+          this.setState(({ todos }) => ({
+            todos: [
+              ...todos,
+              {
+                text: inputText,
+                completed: false,
+                editing: false,
+                id: Math.random() * 1000,
+                status: 'All',
+              },
+            ],
+            filteredTodos: todos,
+            inputText: '',
+          }))
+          break
+      }
     }
   }
 
@@ -159,26 +196,34 @@ export default class App extends React.Component {
   }
 
   statusHandler(e) {
-    console.log(e)
-    console.log(e.target.firstChild.data)
     this.setState(() => ({
       filterStatus: e.target.firstChild.data,
     }))
+    const clickEvent = document.createEvent('MouseEvents')
+    clickEvent.initEvent('dblclick', true, true)
+    e.target.firstChild.dispatchEvent(clickEvent)
   }
 
   filterHandler() {
-    if (this.state.filterStatus === 'Completed') {
-      this.setState((state) => ({
-        filteredTodos: state.todos.filter((todo) => todo.completed),
-      }))
-    } else if (this.state.filterStatus === 'Active') {
-      this.setState((state) => ({
-        filteredTodos: state.todos.filter((todo) => todo.completed === false),
-      }))
-    } else if (this.filterStatus === 'All') {
-      this.setState((state) => ({
-        filteredTodos: state.todos.filter((todo) => todo),
-      }))
+    switch (this.state.filterStatus) {
+      case 'Completed':
+        this.setState((state) => ({
+          filteredTodos: state.todos.filter((todo) => {
+            return todo.status === 'completed'
+          }),
+        }))
+
+        break
+      case 'Active':
+        this.setState((state) => ({
+          filteredTodos: state.todos.filter((todo) => todo.status !== 'completed'),
+        }))
+        break
+      default:
+        this.setState((state) => ({
+          filteredTodos: state.todos,
+        }))
+        break
     }
   }
 
@@ -236,3 +281,16 @@ export default class App extends React.Component {
     })
   }
 */
+/*    if (this.state.filterStatus === 'Completed') {
+      this.setState((state) => ({
+        filteredTodos: state.todos.filter((todo) => todo.completed),
+      }))
+    } else if (this.state.filterStatus === 'Active') {
+      this.setState((state) => ({
+        filteredTodos: state.todos.filter((todo) => todo.completed === false),
+      }))
+    } else if (this.filterStatus === 'All') {
+      this.setState((state) => ({
+        filteredTodos: state.todos.filter((todo) => todo),
+      }))
+    } */

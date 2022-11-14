@@ -1,4 +1,4 @@
-const Filters = ({ onFilterCompleted }) => {
+const Filters = () => {
   return (
     <>
       {' '}
@@ -9,7 +9,7 @@ const Filters = ({ onFilterCompleted }) => {
         <button>Active</button>
       </li>
       <li>
-        <button onClick={onFilterCompleted}>Completed</button>
+        <button>Completed</button>
       </li>
     </>
   )
