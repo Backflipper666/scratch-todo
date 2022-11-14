@@ -10,7 +10,7 @@ import Footer from './components/Footer/Footer'
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { inputText: '', todos: [], filteredTodos: [], status: 'All' }
+    this.state = { inputText: '', todos: [], filteredTodos: [], status: 'All', filterStatus: 'All' }
     this.onKeyUpInput = this.onKeyUpInput.bind(this)
     this.inputTextHandler = this.inputTextHandler.bind(this)
     this.onDeleteTask = this.onDeleteTask.bind(this)
@@ -19,6 +19,7 @@ export default class App extends React.Component {
     this.onEditSubmit = this.onEditSubmit.bind(this)
     this.onBlurInput = this.onBlurInput.bind(this)
     this.onFilterCompleted = this.onFilterCompleted.bind(this)
+    this.filterHandler = this.filterHandler.bind(this)
   }
 
   inputTextHandler(e) {
@@ -157,12 +158,28 @@ export default class App extends React.Component {
     id
   }
 
-  onFilterCompleted() {
-    const filteredTodos = this.state.todos.filter((item) => item.completed)
-    // const todosCopy = this.state.todos
+  statusHandler(e) {
+    console.log(e)
+    console.log(e.target.firstChild.data)
     this.setState({
-      todos: filteredTodos,
+      filterStatus: e.target.firstChild.data,
     })
+  }
+
+  filterHandler() {
+    if (this.state.filterStatus === 'Completed') {
+      this.setState((state) => ({
+        filterStatus: state.todos.filter((todo) => todo.completed === true),
+      }))
+    } else if (this.state.filterStatus === 'Active') {
+      this.setState((state) => ({
+        filterStatus: state.todos.filter((todo) => todo.completed === false),
+      }))
+    } else {
+      this.setState((state) => ({
+        filterStatus: state.todos.filter((todo) => todo),
+      }))
+    }
   }
 
   render() {
@@ -187,10 +204,34 @@ export default class App extends React.Component {
               onEditSubmit={this.onEditSubmit}
               onBlurInput={this.onBlurInput}
             ></TaskList>
-            <Footer onFilterCompleted={this.onFilterCompleted} />
+            <Footer filterHandler={this.filterHandler} />
           </section>
         </section>
       </div>
     )
   }
 }
+/* filterHandler() {
+  if (this.state.filterStatus === 'Completed') {
+    this.setState((state) => ({
+      filterStatus: state.todos.filter((todo) => todo.completed === true),
+    }))
+  } else if (this.state.filterStatus === 'Active') {
+    this.setState((state) => ({
+      filterStatus: state.todos.filter((todo) => todo.completed === false),
+    }))
+  } else {
+    this.setState((state) => ({
+      filterStatus: state.todos.filter((todo) => todo),
+    }))
+  }
+} 
+
+  statusHandler(e) {
+    console.log(e)
+    console.log(e.target.firstChild.data)
+    this.setState({
+      filterStatus: e.target.firstChild.data,
+    })
+  }
+*/
