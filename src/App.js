@@ -1,6 +1,8 @@
 import React from 'react'
 
 import './App.css'
+// import { flushSync } from 'react-dom'
+
 import NewTaskForm from './components/NewTaskForm/NewTaskForm'
 import TaskList from './components/TaskList/TaskList'
 import Footer from './components/Footer/Footer'
@@ -8,7 +10,7 @@ import Footer from './components/Footer/Footer'
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { inputText: '', todos: [] }
+    this.state = { inputText: '', todos: [], filteredTodos: [], status: 'All' }
     this.onKeyUpInput = this.onKeyUpInput.bind(this)
     this.inputTextHandler = this.inputTextHandler.bind(this)
     this.onDeleteTask = this.onDeleteTask.bind(this)
@@ -16,6 +18,7 @@ export default class App extends React.Component {
     this.onEditHandler = this.onEditHandler.bind(this)
     this.onEditSubmit = this.onEditSubmit.bind(this)
     this.onBlurInput = this.onBlurInput.bind(this)
+    this.onFilterCompleted = this.onFilterCompleted.bind(this)
   }
 
   inputTextHandler(e) {
@@ -61,7 +64,6 @@ export default class App extends React.Component {
       todos: state.todos.map((item) => {
         if (item.id === id) {
           if (item.status === 'All') {
-            console.log('item is: ', item)
             return {
               ...item,
               status: 'completed',
@@ -107,7 +109,6 @@ export default class App extends React.Component {
 
   onEditSubmit(id, textEdited, event) {
     event.preventDefault()
-    console.log('event is: ', event)
     if (event.key === 'Enter') {
       this.setState((state) => ({
         todos: state.todos.map((item) => {
@@ -156,6 +157,14 @@ export default class App extends React.Component {
     id
   }
 
+  onFilterCompleted() {
+    const filteredTodos = this.state.todos.filter((item) => item.completed)
+    // const todosCopy = this.state.todos
+    this.setState({
+      todos: filteredTodos,
+    })
+  }
+
   render() {
     const inputText = this.state.inputText
     const todos = this.state.todos
@@ -178,7 +187,7 @@ export default class App extends React.Component {
               onEditSubmit={this.onEditSubmit}
               onBlurInput={this.onBlurInput}
             ></TaskList>
-            <Footer />
+            <Footer onFilterCompleted={this.onFilterCompleted} />
           </section>
         </section>
       </div>
