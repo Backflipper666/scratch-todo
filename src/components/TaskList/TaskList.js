@@ -7,11 +7,11 @@ const TaskList = ({
   onEditHandler,
   onEditSubmit,
   onBlurInput,
-  // filteredTodos,
+  filteredTodos,
 }) => {
   return (
     <ul className="todo-list">
-      {todos.map((todo) => (
+      {filteredTodos.map((todo) => (
         <Task
           completed={todo.completed}
           id={todo.id}
