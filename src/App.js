@@ -250,7 +250,13 @@ export default class App extends React.Component {
               onBlurInput={this.onBlurInput}
               filteredTodos={this.state.filteredTodos}
             ></TaskList>
-            <Footer filterHandler={this.filterHandler} statusHandler={this.statusHandler} />
+            <Footer
+              filterHandler={this.filterHandler}
+              statusHandler={this.statusHandler}
+              filteredTodos={this.state.filteredTodos}
+              filterStatus={this.state.filterStatus}
+              todos={todos}
+            />
           </section>
         </section>
       </div>
