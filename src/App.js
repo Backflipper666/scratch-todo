@@ -2,9 +2,6 @@
 import React from 'react'
 
 import './App.css'
-// import { flushSync } from 'react-dom'
-
-// import { isThisISOWeek } from 'date-fns'
 
 import NewTaskForm from './components/NewTaskForm/NewTaskForm'
 import TaskList from './components/TaskList/TaskList'
@@ -37,56 +34,19 @@ export default class App extends React.Component {
 
     const inputText = this.state.inputText
     if (event.key === 'Enter') {
-      switch (this.state.filterStatus) {
-        case 'Completed':
-          this.setState(({ todos }) => ({
-            todos: [
-              ...todos,
-              {
-                text: inputText,
-                completed: false,
-                editing: false,
-                id: Math.random() * 1000,
-                status: 'All',
-              },
-            ],
-            filteredTodos: todos.filter((todo) => todo.completed === true),
-            inputText: '',
-          }))
-          break
-        case 'Active':
-          this.setState(({ todos }) => ({
-            todos: [
-              ...todos,
-              {
-                text: inputText,
-                completed: false,
-                editing: false,
-                id: Math.random() * 1000,
-                status: 'All',
-              },
-            ],
-            filteredTodos: todos.filter((todo) => todo.completed === false),
-            inputText: '',
-          }))
-          break
-        default:
-          this.setState(({ todos }) => ({
-            todos: [
-              ...todos,
-              {
-                text: inputText,
-                completed: false,
-                editing: false,
-                id: Math.random() * 1000,
-                status: 'All',
-              },
-            ],
-            filteredTodos: todos,
-            inputText: '',
-          }))
-          break
-      }
+      this.setState(({ todos }) => ({
+        todos: [
+          ...todos,
+          {
+            text: inputText,
+            completed: false,
+            editing: false,
+            id: Math.random() * 1000,
+            status: 'All',
+          },
+        ],
+        inputText: '',
+      }))
     }
   }
 
