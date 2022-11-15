@@ -23,6 +23,7 @@ export default class App extends React.Component {
     this.onBlurInput = this.onBlurInput.bind(this)
     this.filterHandler = this.filterHandler.bind(this)
     this.statusHandler = this.statusHandler.bind(this)
+    this.clearCompleted = this.clearCompleted.bind(this)
   }
 
   inputTextHandler(e) {
@@ -38,8 +39,6 @@ export default class App extends React.Component {
     if (event.key === 'Enter') {
       switch (this.state.filterStatus) {
         case 'Completed':
-          //   const todos = this.props.todos
-          //   const inputText = this.props.inputText
           this.setState(({ todos }) => ({
             todos: [
               ...todos,
@@ -53,7 +52,7 @@ export default class App extends React.Component {
             ],
             filteredTodos: todos.filter((todo) => todo.completed === true),
             inputText: '',
-          })) // event.target.value = ''
+          }))
           break
         case 'Active':
           this.setState(({ todos }) => ({
@@ -69,9 +68,9 @@ export default class App extends React.Component {
             ],
             filteredTodos: todos.filter((todo) => todo.completed === false),
             inputText: '',
-          })) // event.target.value = ''
+          }))
           break
-        default: // event.target.value = ''
+        default:
           this.setState(({ todos }) => ({
             todos: [
               ...todos,
@@ -199,9 +198,6 @@ export default class App extends React.Component {
     this.setState(() => ({
       filterStatus: e.target.firstChild.data,
     }))
-    const clickEvent = document.createEvent('MouseEvents')
-    clickEvent.initEvent('dblclick', true, true)
-    e.target.firstChild.dispatchEvent(clickEvent)
   }
 
   filterHandler() {
@@ -225,6 +221,14 @@ export default class App extends React.Component {
         }))
         break
     }
+  }
+
+  clearCompleted() {
+    const todos = this.state.todos
+    const arrayWithoutCompleted = todos.filter((item) => !item.completed)
+    this.setState(() => ({
+      todos: arrayWithoutCompleted,
+    }))
   }
 
   render() {
@@ -256,6 +260,7 @@ export default class App extends React.Component {
               filteredTodos={this.state.filteredTodos}
               filterStatus={this.state.filterStatus}
               todos={todos}
+              clearCompleted={this.clearCompleted}
             />
           </section>
         </section>
@@ -263,40 +268,3 @@ export default class App extends React.Component {
     )
   }
 }
-/* filterHandler() {
-  if (this.state.filterStatus === 'Completed') {
-    this.setState((state) => ({
-      filterStatus: state.todos.filter((todo) => todo.completed === true),
-    }))
-  } else if (this.state.filterStatus === 'Active') {
-    this.setState((state) => ({
-      filterStatus: state.todos.filter((todo) => todo.completed === false),
-    }))
-  } else {
-    this.setState((state) => ({
-      filterStatus: state.todos.filter((todo) => todo),
-    }))
-  }
-} 
-
-  statusHandler(e) {
-    console.log(e)
-    console.log(e.target.firstChild.data)
-    this.setState({
-      filterStatus: e.target.firstChild.data,
-    })
-  }
-*/
-/*    if (this.state.filterStatus === 'Completed') {
-      this.setState((state) => ({
-        filteredTodos: state.todos.filter((todo) => todo.completed),
-      }))
-    } else if (this.state.filterStatus === 'Active') {
-      this.setState((state) => ({
-        filteredTodos: state.todos.filter((todo) => todo.completed === false),
-      }))
-    } else if (this.filterStatus === 'All') {
-      this.setState((state) => ({
-        filteredTodos: state.todos.filter((todo) => todo),
-      }))
-    } */

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 import Filters from '../Filters/Filters'
-const Footer = ({ statusHandler, filterHandler, todos, filterStatus }) => {
+const Footer = ({ statusHandler, filterHandler, todos, filterStatus, clearCompleted }) => {
   const callMultipleFunctionsOnClick = (e) => {
     statusHandler(e)
     filterHandler()
@@ -15,7 +15,9 @@ const Footer = ({ statusHandler, filterHandler, todos, filterStatus }) => {
       <ul className="filters" onClick={callMultipleFunctionsOnClick}>
         <Filters statusHandler={statusHandler} filterHandler={filterHandler} />
       </ul>
-      <button className="clear-completed">Clear completed</button>
+      <button onClick={clearCompleted} className="clear-completed">
+        Clear completed
+      </button>
     </footer>
   )
 }
