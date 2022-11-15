@@ -21,6 +21,7 @@ export default class App extends React.Component {
     this.filterHandler = this.filterHandler.bind(this)
     this.statusHandler = this.statusHandler.bind(this)
     this.clearCompleted = this.clearCompleted.bind(this)
+    this.countItemsLeft = this.countItemsLeft.bind(this)
   }
 
   inputTextHandler(e) {
@@ -191,9 +192,15 @@ export default class App extends React.Component {
     }))
   }
 
+  countItemsLeft() {
+    const itemsLeft = this.state.todos.filter((item) => !item.completed).length
+    return itemsLeft
+  }
+
   render() {
     const inputText = this.state.inputText
     const todos = this.state.todos
+    const itemsLeft = this.countItemsLeft()
     return (
       <div className="App">
         <section className="todoapp">
@@ -221,6 +228,7 @@ export default class App extends React.Component {
               filterStatus={this.state.filterStatus}
               todos={todos}
               clearCompleted={this.clearCompleted}
+              itemsLeft={itemsLeft}
             />
           </section>
         </section>
