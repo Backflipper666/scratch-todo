@@ -7,10 +7,6 @@ class NewTaskForm extends React.Component {
       label: '',
     }
     this.statusHandler = this.statusHandler.bind(this)
-    // this.onLabelChange = this.onLabelChange.bind(this)
-    // this.onSubmit = this.onSubmit.bind(this)
-    // this.inputTextHandler = this.inputTextHandler.bind(this)
-    // this.submitTodoHandler = this.submitTodoHandler.bind(this)
   }
   statusHandler(e) {
     console.log(e)
@@ -24,7 +20,6 @@ class NewTaskForm extends React.Component {
       <header className="header">
         <h1>todos</h1>
         <input
-          // onSubmit={this.submitTodoHandler}
           className="new-todo"
           placeholder="What needs to be done?"
           value={inputText}

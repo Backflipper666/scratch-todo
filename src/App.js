@@ -31,7 +31,7 @@ export default class App extends React.Component {
 
   onKeyUpInput(event) {
     event.preventDefault()
-
+    if (!event.target.value.trim().length) return
     const inputText = this.state.inputText
     if (event.key === 'Enter') {
       this.setState(({ todos }) => ({

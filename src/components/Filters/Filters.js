@@ -4,7 +4,7 @@ export default class Filters extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      allSelected: false,
+      allSelected: true,
       activeSelected: false,
       completedSelected: false,
     }
