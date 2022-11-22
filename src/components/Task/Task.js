@@ -49,8 +49,14 @@ const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler, 
             }}
           />
           <label htmlFor={id}>
-            <span className="description">{text}</span>
-            <span className="created">{`created ${formatDistanceToNow(dateTime, {
+            <span className="title">{text}</span>
+            <span className="description">
+              <button className="icon icon-play"></button>
+              <button className="icon icon-pause"></button>
+              <span className="description__time">12:25</span>
+            </span>
+
+            <span className="created description">{`created ${formatDistanceToNow(dateTime, {
               includeSeconds: true,
             })} ago`}</span>
           </label>

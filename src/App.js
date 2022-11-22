@@ -2,7 +2,7 @@
 import React from 'react'
 
 import './App.css'
-
+// import './timer.css'
 import NewTaskForm from './components/NewTaskForm/NewTaskForm'
 import TaskList from './components/TaskList/TaskList'
 import Footer from './components/Footer/Footer'
