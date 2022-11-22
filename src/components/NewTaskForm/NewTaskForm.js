@@ -19,14 +19,34 @@ class NewTaskForm extends React.Component {
     return (
       <header className="header">
         <h1>todos</h1>
-        <input
-          className="new-todo"
-          placeholder="What needs to be done?"
-          value={inputText}
-          onChange={inputTextHandler}
-          onKeyUp={onKeyUpInput}
-          autoFocus
-        />
+        <form className="new-todo-form">
+          <input
+            className="new-todo"
+            placeholder="Task"
+            value={inputText}
+            onChange={inputTextHandler}
+            onKeyUp={onKeyUpInput}
+            autoFocus
+          />
+          <input
+            // value={2}
+            name="min"
+            max="60"
+            min="0"
+            type="number"
+            className="new-todo-form__timer"
+            placeholder="Min"
+          />
+          <input
+            // value={1}
+            name="sec"
+            max="60"
+            min="0"
+            type="number"
+            className="new-todo-form__timer"
+            placeholder="Sec"
+          />
+        </form>
       </header>
     )
   }
