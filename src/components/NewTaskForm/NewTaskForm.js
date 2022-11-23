@@ -18,15 +18,19 @@ class NewTaskForm extends React.Component {
   }
 
   onHitEnter(e) {
-    this.props.onKeyUpInputCopy(e, this.state.minutes, this.state.seconds)
     if (!e.target.value.trim().length) return
     if (e.key === 'Enter') {
+      if (isNaN(Number(this.state.minutes)) || isNaN(Number(this.state.seconds))) {
+        return
+      }
+      this.props.onKeyUpInputCopy(e, this.state.minutes, this.state.seconds)
       this.setState({
         minutes: '',
         seconds: '',
       })
     }
   }
+
   onChangeSec(e) {
     this.setState({
       seconds: e.target.value,
@@ -61,7 +65,7 @@ class NewTaskForm extends React.Component {
             name="min"
             max="60"
             min="0"
-            type="number"
+            type="text"
             className="new-todo-form__timer"
             placeholder="Min"
           />
@@ -71,7 +75,7 @@ class NewTaskForm extends React.Component {
             name="sec"
             max="60"
             min="0"
-            type="number"
+            type="text"
             className="new-todo-form__timer"
             placeholder="Sec"
           />

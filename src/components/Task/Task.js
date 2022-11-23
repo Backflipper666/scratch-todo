@@ -54,7 +54,6 @@ const Task = ({
       </span>
     )
   }
-  // const cachedValue = useMemo(() => convertToMs(mins, secs), [mins, secs])
   return (
     <li className={todo.status}>
       {todo.status === 'editing' ? (
