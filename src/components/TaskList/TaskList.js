@@ -8,7 +8,6 @@ const TaskList = ({
   onEditSubmit,
   onBlurInput,
   filteredTodos,
-  min,
 }) => {
   return (
     <ul className="todo-list">
@@ -20,6 +19,8 @@ const TaskList = ({
           text={todo.text}
           key={todo.id}
           time={todo.time}
+          min={todo.min}
+          sec={todo.sec}
           todo={todo}
           todos={todos}
           onDeleteTask={onDeleteTask}
@@ -27,7 +28,6 @@ const TaskList = ({
           onEditHandler={onEditHandler}
           onEditSubmit={onEditSubmit}
           onBlurInput={onBlurInput}
-          min={min}
         />
       ))}
     </ul>

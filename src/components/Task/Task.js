@@ -1,7 +1,18 @@
 import { useState } from 'react'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
-const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler, onEditSubmit, onBlurInput }) => {
+const Task = ({
+  text,
+  id,
+  onDeleteTask,
+  onCompleteHandler,
+  todo,
+  onEditHandler,
+  onEditSubmit,
+  onBlurInput,
+  min,
+  sec,
+}) => {
   const [inputValue, setInputValue] = useState(todo.text)
   const [dateTime] = useState(new Date())
   const deleteTask = () => {
@@ -53,7 +64,7 @@ const Task = ({ text, id, onDeleteTask, onCompleteHandler, todo, onEditHandler, 
             <span className="description">
               <button className="icon icon-play"></button>
               <button className="icon icon-pause"></button>
-              <span className="description__time"></span>
+              <span className="description__time">{`${min}:${sec}`}</span>
             </span>
 
             <span className="created description">{`created ${formatDistanceToNow(dateTime, {
