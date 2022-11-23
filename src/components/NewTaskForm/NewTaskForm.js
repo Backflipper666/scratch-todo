@@ -19,6 +19,8 @@ class NewTaskForm extends React.Component {
 
   onHitEnter(e) {
     if (!e.target.value.trim().length) return
+    if (!this.state.minutes.trim().length && !this.state.seconds.trim().length) return
+
     if (e.key === 'Enter') {
       if (isNaN(Number(this.state.minutes)) || isNaN(Number(this.state.seconds))) {
         return
