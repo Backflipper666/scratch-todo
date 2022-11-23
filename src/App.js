@@ -2,7 +2,6 @@
 import React from 'react'
 
 import './App.css'
-// import './timer.css'
 import NewTaskForm from './components/NewTaskForm/NewTaskForm'
 import TaskList from './components/TaskList/TaskList'
 import Footer from './components/Footer/Footer'
@@ -10,7 +9,13 @@ import Footer from './components/Footer/Footer'
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { inputText: '', todos: [], filteredTodos: [], status: 'All', filterStatus: 'All' }
+    this.state = {
+      inputText: '',
+      todos: [],
+      filteredTodos: [],
+      status: 'All',
+      filterStatus: 'All',
+    }
     this.onKeyUpInput = this.onKeyUpInput.bind(this)
     this.inputTextHandler = this.inputTextHandler.bind(this)
     this.onDeleteTask = this.onDeleteTask.bind(this)
@@ -22,6 +27,9 @@ export default class App extends React.Component {
     this.statusHandler = this.statusHandler.bind(this)
     this.clearCompleted = this.clearCompleted.bind(this)
     this.countItemsLeft = this.countItemsLeft.bind(this)
+    this.onMinChange = this.onMinChange.bind(this)
+    this.onFormSubmit = this.onFormSubmit.bind(this)
+    this.onKeyUpInputCopy = this.onKeyUpInputCopy.bind(this)
   }
 
   inputTextHandler(e) {
@@ -31,6 +39,30 @@ export default class App extends React.Component {
   }
 
   onKeyUpInput(event) {
+    event.preventDefault()
+    if (!event.target.value.trim().length) return
+    const inputText = this.state.inputText
+    this.setState({
+      inputText: event.target.value,
+    })
+    if (event.key === 'Enter') {
+      this.setState(({ todos }) => ({
+        todos: [
+          ...todos,
+          {
+            text: inputText,
+            completed: false,
+            editing: false,
+            id: Math.random() * 1000,
+            status: 'All',
+            time: '',
+          },
+        ],
+        inputText: '',
+      }))
+    }
+  }
+  onKeyUpInputCopy(event, eventMin, eventSec) {
     event.preventDefault()
     if (!event.target.value.trim().length) return
     const inputText = this.state.inputText
@@ -44,11 +76,39 @@ export default class App extends React.Component {
             editing: false,
             id: Math.random() * 1000,
             status: 'All',
+            min: eventMin,
+            sec: eventSec,
           },
         ],
         inputText: '',
       }))
     }
+  }
+
+  onMinChange(eventMinutes) {
+    eventMinutes.preventDefault()
+    const inputText = this.state.inputText
+
+    this.setState(({ todos }) => ({
+      todos: [
+        ...todos,
+        {
+          text: inputText,
+          completed: false,
+          editing: false,
+          id: Math.random() * 1000,
+          status: 'All',
+          time: eventMinutes.target.value,
+        },
+      ],
+    }))
+    /*    this.setState({
+      min: eventMinutes.target.value,
+    }) */
+  }
+  onFormSubmit(event) {
+    event.preventDefault()
+    console.log(event)
   }
 
   onDeleteTask(id) {
@@ -209,6 +269,9 @@ export default class App extends React.Component {
             inputText={inputText}
             onKeyUpInput={this.onKeyUpInput}
             inputTextHandler={this.inputTextHandler}
+            onMinChange={this.onMinChange}
+            onFormSubmit={this.onFormSubmit}
+            onKeyUpInputCopy={this.onKeyUpInputCopy}
           />
           <section className="main">
             <TaskList
