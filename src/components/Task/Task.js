@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import Countdown from 'react-countdown'
 
 const Task = ({
   text,
@@ -15,6 +16,11 @@ const Task = ({
 }) => {
   const [inputValue, setInputValue] = useState(todo.text)
   const [dateTime] = useState(new Date())
+  const [date] = useState(Date.now())
+
+  const clockRef = useRef()
+  const handleStart = () => clockRef.current.start()
+  const handlePause = () => clockRef.current.pause()
   const deleteTask = () => {
     onDeleteTask(id)
   }
@@ -34,6 +40,21 @@ const Task = ({
     onBlurInput(id, inputValue)
   }
 
+  function convertToMs(mins, secs) {
+    const secsToMs = secs * 1000
+    const minsToMs = mins * 60000
+    const output = secsToMs + minsToMs
+    return output
+  }
+
+  const renderer = ({ minutes, seconds }) => {
+    return (
+      <span>
+        {minutes}:{seconds}
+      </span>
+    )
+  }
+  // const cachedValue = useMemo(() => convertToMs(mins, secs), [mins, secs])
   return (
     <li className={todo.status}>
       {todo.status === 'editing' ? (
@@ -62,9 +83,17 @@ const Task = ({
           <label htmlFor={id}>
             <span className="title">{text}</span>
             <span className="description">
-              <button className="icon icon-play"></button>
-              <button className="icon icon-pause"></button>
-              <span className="description__time">{`${min}:${sec}`}</span>
+              <button className="icon icon-play" onClick={handleStart}></button>
+              <button className="icon icon-pause" onClick={handlePause}></button>
+              <span className="description__time">
+                <Countdown
+                  renderer={renderer}
+                  zeroPadTime={0}
+                  date={date + convertToMs(min, sec)}
+                  autoStart={false}
+                  ref={clockRef}
+                />
+              </span>
             </span>
 
             <span className="created description">{`created ${formatDistanceToNow(dateTime, {
