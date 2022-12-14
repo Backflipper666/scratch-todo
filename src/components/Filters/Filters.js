@@ -1,52 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-export default class Filters extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      allSelected: true,
-      activeSelected: false,
-      completedSelected: false,
-    }
-    this.selectAll = this.selectAll.bind(this)
-    this.selectActive = this.selectActive.bind(this)
-    this.selectCompleted = this.selectCompleted.bind(this)
-  }
+const Filters = () => {
+  const [allSelected, setAllSelected] = useState(true)
+  const [activeSelected, setActiveSelected] = useState(false)
+  const [completedSelected, setCompletedSelected] = useState(false)
 
-  selectAll() {
-    this.setState({ allSelected: true, activeSelected: false, completedSelected: false })
+  const selectAll = () => {
+    setAllSelected(true)
+    setActiveSelected(false)
+    setCompletedSelected(false)
   }
-  selectActive() {
-    this.setState({ allSelected: false, activeSelected: true, completedSelected: false })
+  const selectActive = () => {
+    setAllSelected(false)
+    setActiveSelected(true)
+    setCompletedSelected(false)
   }
-  selectCompleted() {
-    this.setState({ allSelected: false, activeSelected: false, completedSelected: true })
+  const selectCompleted = () => {
+    setAllSelected(false)
+    setActiveSelected(false)
+    setCompletedSelected(true)
   }
 
-  render() {
-    const all = this.state.allSelected
-    const active = this.state.activeSelected
-    const completed = this.state.completedSelected
-
-    return (
-      <>
-        {' '}
-        <li>
-          <button onClick={this.selectAll} className={all ? 'selected' : null}>
-            All
-          </button>
-        </li>
-        <li>
-          <button onClick={this.selectActive} className={active ? 'selected' : null}>
-            Active
-          </button>
-        </li>
-        <li>
-          <button onClick={this.selectCompleted} className={completed ? 'selected' : null}>
-            Completed
-          </button>
-        </li>
-      </>
-    )
-  }
+  return (
+    <>
+      <li>
+        <button onClick={selectAll} className={allSelected ? 'selected' : null}>
+          All
+        </button>
+      </li>
+      <li>
+        <button onClick={selectActive} className={activeSelected ? 'selected' : null}>
+          Active
+        </button>
+      </li>
+      <li>
+        <button onClick={selectCompleted} className={completedSelected ? 'selected' : null}>
+          Completed
+        </button>
+      </li>
+    </>
+  )
 }
+
+export default Filters
