@@ -1,96 +1,28 @@
 /* eslint-disable indent */
 import React from 'react'
-
+import { useState } from 'react'
 import './App.css'
+
 import NewTaskForm from './components/NewTaskForm/NewTaskForm'
 import TaskList from './components/TaskList/TaskList'
 import Footer from './components/Footer/Footer'
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      inputText: '',
-      todos: [],
-      filteredTodos: [],
-      status: 'All',
-      filterStatus: 'All',
-    }
-    this.onKeyUpInput = this.onKeyUpInput.bind(this)
-    this.inputTextHandler = this.inputTextHandler.bind(this)
-    this.onDeleteTask = this.onDeleteTask.bind(this)
-    this.onCompleteHandler = this.onCompleteHandler.bind(this)
-    this.onEditHandler = this.onEditHandler.bind(this)
-    this.onEditSubmit = this.onEditSubmit.bind(this)
-    this.onBlurInput = this.onBlurInput.bind(this)
-    this.filterHandler = this.filterHandler.bind(this)
-    this.statusHandler = this.statusHandler.bind(this)
-    this.clearCompleted = this.clearCompleted.bind(this)
-    this.countItemsLeft = this.countItemsLeft.bind(this)
-    this.onMinChange = this.onMinChange.bind(this)
-    this.onFormSubmit = this.onFormSubmit.bind(this)
-    this.onKeyUpInputCopy = this.onKeyUpInputCopy.bind(this)
+const App = () => {
+  const [inputText, setInputText] = useState('')
+  const [todos, setTodos] = useState([])
+  const [filteredTodos, setFilteredTodos] = useState([])
+  // const [status, setStatus] = useState('All')
+  const [filterStatus, setFilterStatus] = useState('All')
+
+  const inputTextHandler = (e) => {
+    setInputText(e.target.value)
   }
 
-  inputTextHandler(e) {
-    this.setState({
-      inputText: e.target.value,
-    })
-  }
-
-  onKeyUpInput(event) {
+  const onKeyUpInputCopy = (event, eventMin, eventSec) => {
     event.preventDefault()
     if (!event.target.value.trim().length) return
-    const inputText = this.state.inputText
-    this.setState({
-      inputText: event.target.value,
-    })
     if (event.key === 'Enter') {
-      this.setState(({ todos }) => ({
-        todos: [
-          ...todos,
-          {
-            text: inputText,
-            completed: false,
-            editing: false,
-            id: Math.random() * 1000,
-            status: 'All',
-            time: '',
-          },
-        ],
-        inputText: '',
-      }))
-    }
-  }
-  onKeyUpInputCopy(event, eventMin, eventSec) {
-    event.preventDefault()
-    if (!event.target.value.trim().length) return
-    const inputText = this.state.inputText
-    if (event.key === 'Enter') {
-      this.setState(({ todos }) => ({
-        todos: [
-          ...todos,
-          {
-            text: inputText,
-            completed: false,
-            editing: false,
-            id: Math.random() * 1000,
-            status: 'All',
-            min: eventMin,
-            sec: eventSec,
-          },
-        ],
-        inputText: '',
-      }))
-    }
-  }
-
-  onMinChange(eventMinutes) {
-    eventMinutes.preventDefault()
-    const inputText = this.state.inputText
-
-    this.setState(({ todos }) => ({
-      todos: [
+      setTodos([
         ...todos,
         {
           text: inputText,
@@ -98,28 +30,62 @@ export default class App extends React.Component {
           editing: false,
           id: Math.random() * 1000,
           status: 'All',
-          time: eventMinutes.target.value,
+          min: eventMin,
+          sec: eventSec,
         },
-      ],
-    }))
-    /*    this.setState({
-      min: eventMinutes.target.value,
-    }) */
+      ])
+      setInputText('')
+    }
   }
-  onFormSubmit(event) {
+
+  const onKeyUpInput = (event) => {
+    event.preventDefault()
+    if (!event.target.value.trim().length) return
+    setInputText(event.target.value)
+
+    if (event.key === 'Enter') {
+      setTodos([
+        ...todos,
+        {
+          text: inputText,
+          completed: false,
+          editing: false,
+          id: Math.random() * 1000,
+          status: 'All',
+          time: '',
+        },
+      ])
+      setInputText('')
+    }
+  }
+
+  const onMinChange = (eventMinutes) => {
+    eventMinutes.preventDefault()
+    setTodos([
+      ...todos,
+      {
+        text: inputText,
+        completed: false,
+        editing: false,
+        id: Math.random() * 1000,
+        status: 'All',
+        time: eventMinutes.target.value,
+      },
+    ])
+  }
+
+  const onFormSubmit = (event) => {
     event.preventDefault()
     console.log(event)
   }
 
-  onDeleteTask(id) {
-    this.setState((state) => ({
-      todos: state.todos.filter((item) => item.id !== id),
-    }))
+  const onDeleteTask = (id) => {
+    setTodos(todos.filter((item) => item.id !== id))
   }
 
-  onCompleteHandler(id) {
-    this.setState((state) => ({
-      todos: state.todos.map((item) => {
+  const onCompleteHandler = (id) => {
+    setTodos(
+      todos.map((item) => {
         if (item.id === id) {
           if (item.status === 'All') {
             return {
@@ -136,13 +102,13 @@ export default class App extends React.Component {
           }
         }
         return item
-      }),
-    }))
+      })
+    )
   }
 
-  onEditHandler(id) {
-    this.setState((state) => ({
-      todos: state.todos.map((item) => {
+  const onEditHandler = (id) => {
+    setTodos(
+      todos.map((item) => {
         if (item.id === id) {
           if (item.status === 'All' || item.status === 'completed') {
             return {
@@ -161,15 +127,15 @@ export default class App extends React.Component {
           }
         }
         return item
-      }),
-    }))
+      })
+    )
   }
 
-  onEditSubmit(id, textEdited, event) {
+  const onEditSubmit = (id, textEdited, event) => {
     event.preventDefault()
     if (event.key === 'Enter') {
-      this.setState((state) => ({
-        todos: state.todos.map((item) => {
+      setTodos(
+        todos.map((item) => {
           if (item.id === id) {
             if (!item.completed) {
               return {
@@ -186,14 +152,14 @@ export default class App extends React.Component {
             }
           }
           return item
-        }),
-      }))
+        })
+      )
     }
   }
 
-  onBlurInput(id, textEdited) {
-    this.setState((state) => ({
-      todos: state.todos.map((item) => {
+  const onBlurInput = (id, textEdited) => {
+    setTodos(
+      todos.map((item) => {
         if (item.id === id) {
           if (!item.completed) {
             return {
@@ -210,92 +176,80 @@ export default class App extends React.Component {
           }
         }
         return item
-      }),
-    }))
-    id
+      })
+    )
   }
 
-  statusHandler(e) {
-    this.setState(() => ({
-      filterStatus: e.target.firstChild.data,
-    }))
+  const statusHandler = (e) => {
+    setFilterStatus(e.target.firstChild.data)
   }
 
-  filterHandler() {
-    switch (this.state.filterStatus) {
+  const filterHandler = () => {
+    switch (filterStatus) {
       case 'Completed':
-        this.setState((state) => ({
-          filteredTodos: state.todos.filter((todo) => {
+        setFilteredTodos(
+          todos.filter((todo) => {
             return todo.status === 'completed'
-          }),
-        }))
+          })
+        )
 
         break
       case 'Active':
-        this.setState((state) => ({
-          filteredTodos: state.todos.filter((todo) => todo.status !== 'completed'),
-        }))
+        setFilteredTodos(todos.filter((todo) => todo.status !== 'completed'))
         break
       default:
-        this.setState((state) => ({
-          filteredTodos: state.todos,
-        }))
+        setFilteredTodos(todos)
         break
     }
   }
 
-  clearCompleted() {
-    const todos = this.state.todos
+  const clearCompleted = () => {
     const arrayWithoutCompleted = todos.filter((item) => !item.completed)
-    this.setState(() => ({
-      todos: arrayWithoutCompleted,
-    }))
+    setTodos(arrayWithoutCompleted)
   }
 
-  countItemsLeft() {
-    const itemsLeft = this.state.todos.filter((item) => !item.completed).length
+  const countItemsLeft = () => {
+    const itemsLeft = todos.filter((item) => !item.completed).length
     return itemsLeft
   }
 
-  render() {
-    const inputText = this.state.inputText
-    const todos = this.state.todos
-    const itemsLeft = this.countItemsLeft()
-    return (
-      <div className="App">
-        <section className="todoapp">
-          <NewTaskForm
-            todos={this.state.todos}
-            inputText={inputText}
-            onKeyUpInput={this.onKeyUpInput}
-            inputTextHandler={this.inputTextHandler}
-            onMinChange={this.onMinChange}
-            onFormSubmit={this.onFormSubmit}
-            onKeyUpInputCopy={this.onKeyUpInputCopy}
+  const itemsLeft = countItemsLeft()
+  return (
+    <div className="App">
+      <section className="todoapp">
+        <NewTaskForm
+          todos={todos}
+          inputText={inputText}
+          onKeyUpInput={onKeyUpInput}
+          inputTextHandler={inputTextHandler}
+          onMinChange={onMinChange}
+          onFormSubmit={onFormSubmit}
+          onKeyUpInputCopy={onKeyUpInputCopy}
+        />
+        <section className="main">
+          <TaskList
+            todos={todos}
+            onKeyUpInput={onKeyUpInput}
+            onDeleteTask={onDeleteTask}
+            onCompleteHandler={onCompleteHandler}
+            onEditHandler={onEditHandler}
+            onEditSubmit={onEditSubmit}
+            onBlurInput={onBlurInput}
+            filteredTodos={filteredTodos}
+          ></TaskList>
+          <Footer
+            filterHandler={filterHandler}
+            statusHandler={statusHandler}
+            filteredTodos={filteredTodos}
+            filterStatus={filterStatus}
+            todos={todos}
+            clearCompleted={clearCompleted}
+            itemsLeft={itemsLeft}
           />
-          <section className="main">
-            <TaskList
-              todos={todos}
-              onKeyUpInput={this.onKeyUpInput}
-              onDeleteTask={this.onDeleteTask}
-              onCompleteHandler={this.onCompleteHandler}
-              onEditHandler={this.onEditHandler}
-              onEditSubmit={this.onEditSubmit}
-              onBlurInput={this.onBlurInput}
-              filteredTodos={this.state.filteredTodos}
-            ></TaskList>
-            <Footer
-              filterHandler={this.filterHandler}
-              statusHandler={this.statusHandler}
-              filteredTodos={this.state.filteredTodos}
-              filterStatus={this.state.filterStatus}
-              todos={todos}
-              clearCompleted={this.clearCompleted}
-              itemsLeft={itemsLeft}
-            />
-          </section>
         </section>
-      </div>
-    )
-  }
+      </section>
+    </div>
+  )
 }
+
+export default App

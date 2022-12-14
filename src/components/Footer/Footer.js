@@ -10,7 +10,6 @@ const Footer = ({ statusHandler, filterHandler, todos, filterStatus, clearComple
     filterHandler()
   }, [todos, filterStatus])
   return (
-    // const itemsLeft = countItemsLeft()
     <footer className="footer">
       <span className="todo-count">{itemsLeft} items left</span>
       <ul className="filters" onClick={callMultipleFunctionsOnClick}>
